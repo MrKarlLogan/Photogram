@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  inline-size: 100%;
+  block-size: 100dvh;
+  background-color: rgba(100, 43, 200, 1);
+  background-image: linear-gradient(
+    180deg,
+    rgba(100, 43, 200, 1) 0%,
+    rgba(21, 25, 39, 1) 100%
+  );
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  inline-size: inherit;
+  block-size: inherit;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
