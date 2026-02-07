@@ -12,7 +12,7 @@ import { PhotocardsService } from './photocards.service';
 import { PhotocardDTO } from './dto/photocard.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('photocards')
+@Controller()
 export class PhotocardsController {
   constructor(private photocardService: PhotocardsService) {}
 

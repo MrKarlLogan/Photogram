@@ -19,6 +19,9 @@ import Header from "./components/Header.vue";
   flex: 1;
   display: grid;
   grid-template-columns: 3fr 1fr;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 1rem;
 
   .main__section-one {
     grid-column: 1;
