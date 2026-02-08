@@ -18,13 +18,21 @@ import Header from "./components/Header.vue";
 .main {
   flex: 1;
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  overflow: hidden;
-  overflow-y: scroll;
-  padding: 1rem;
+  grid-template-columns: 5fr 1fr;
 
   .main__section-one {
     grid-column: 1;
+    overflow: hidden;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: black;
+      border-radius: 1rem;
+    }
   }
 
   .main__section-two {

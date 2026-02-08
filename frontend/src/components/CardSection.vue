@@ -17,7 +17,6 @@ const cards = ref<TCard[]>([]);
 onMounted(async () => {
   const response = await axios.get<TCard[]>(config.baseUrl);
   cards.value = response.data;
-  console.log(cards.value);
 });
 </script>
 
@@ -44,33 +43,52 @@ onMounted(async () => {
   inline-size: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
   gap: 1rem;
   list-style: none;
+  padding: 1rem;
 
   .card {
-    inline-size: 30%;
-    max-block-size: 500px;
-    background-color: white;
-    padding: 0.5rem;
+    background-color: black;
+    color: white;
+    font-family: "Press Start 2P", system-ui;
+    max-inline-size: 500px;
+    max-block-size: 550px;
+    block-size: 100%;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    border-radius: 0.3rem;
-    cursor: pointer;
+    gap: 1rem;
+    border-radius: 0.5rem;
     transition: 0.2s;
+    cursor: pointer;
 
     &:hover {
-      transform: scale(1.02);
-    }
-
-    &__img {
-      inline-size: 100%;
-      max-block-size: 300px;
-      object-fit: cover;
-      border-radius: 0.3rem;
+      transform: scale(1.01);
     }
 
     &__title {
+      font-size: 0.7rem;
+      text-align: end;
+    }
+
+    &__img {
+      inline-size: calc(100% + 2rem);
+      transform: translateX(-1rem);
+      block-size: 50%;
+      object-fit: cover;
+    }
+
+    &__description {
+      flex: 1;
+      text-align: start;
+      font-size: 1rem;
+    }
+
+    &__author,
+    &__date {
+      font-size: 0.7rem;
       text-align: end;
     }
   }
