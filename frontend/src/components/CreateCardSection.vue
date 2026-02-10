@@ -1,32 +1,109 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { TCard } from "@/App.vue";
+import config from "@/config";
+import axios from "axios";
+import { reactive, ref } from "vue";
 
-const fileInput = ref(null);
+const props = defineProps<{
+  onRefresh: () => Promise<TCard[] | undefined>;
+}>();
+
+const fileInput = ref<HTMLInputElement | null>(null);
+const formRef = ref<HTMLFormElement | null>(null);
 const previewUrl = ref("");
+
+const formData = reactive({
+  author: "",
+  description: "",
+  location: "",
+  photo: null as File | null,
+});
 
 const handleFilePreview = (event: Event) => {
   if (!fileInput.value) return;
   const target = event.target as HTMLInputElement;
   const file = target.files?.[0];
-  if (file) previewUrl.value = URL.createObjectURL(file);
+  if (file) {
+    formData.photo = file;
+    previewUrl.value = URL.createObjectURL(file);
+  }
+};
+
+const resetForm = () => {
+  formData.author = "";
+  formData.description = "";
+  formData.location = "";
+  formData.photo = null;
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value);
+    previewUrl.value = "";
+  }
+  formRef.value?.reset();
+};
+
+const createCard = async () => {
+  if (!formData.author || !formData.description || !formData.photo) {
+    alert("Заполните все обязательные поля!");
+    return;
+  }
+
+  if (formData.photo.size > 30 * 1024 * 1024) {
+    alert("Максимальный размер файла 30MB");
+    return;
+  }
+
+  try {
+    const data = new FormData();
+    data.append("author", formData.author);
+    data.append("description", formData.description);
+    data.append("location", formData.location);
+    data.append("file", formData.photo);
+
+    await axios.post(config.baseUrl, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    resetForm();
+    await props.onRefresh();
+  } catch (err) {
+    console.log(err);
+    alert("Произошла ошибка при создании карточки");
+  }
 };
 </script>
 
 <template>
   <div class="container">
-    <form class="form" @submit.prevent="console.log('Отправлено')">
+    <form class="form" @submit.prevent="createCard" ref="formRef">
       <h2>Создать фотокарточку</h2>
       <label for="author">Введите имя автора:</label>
-      <input id="author" class="form__author" type="text" required />
+      <input
+        v-model="formData.author"
+        id="author"
+        class="form__author"
+        type="text"
+        autocomplete="off"
+        required
+      />
       <label for="description">Введите описание:</label>
       <textarea
+        v-model="formData.description"
         id="description"
         class="form__description"
         rows="20"
         required
       ></textarea>
       <label for="location">Укажите локацию:</label>
-      <input id="location" class="form__location" type="text" required />
+      <input
+        v-model="formData.location"
+        id="location"
+        class="form__location"
+        type="text"
+        autocomplete="off"
+        required
+      />
       <label for="file">Загрузите фотографию:</label>
       <input
         ref="fileInput"
