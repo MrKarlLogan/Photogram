@@ -67,8 +67,8 @@ const createCard = async () => {
 
     resetForm();
     await props.onRefresh();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     alert("Произошла ошибка при создании карточки");
   }
 };

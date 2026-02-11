@@ -55,8 +55,8 @@ export class PhotocardsController {
         photoUrl,
         createdDate: new Date(),
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       throw new BadRequestException('Не удалось обработать изображение');
     }
   }
