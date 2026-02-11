@@ -34,6 +34,7 @@ const deleteCard = async (id: string) => {
         class="card__img"
         :src="config.baseUrl + card.photoUrl"
         :alt="card.description"
+        loading="lazy"
       />
       <p class="card__description">{{ card.description }}</p>
       <p class="card__author">{{ card.author }}</p>
